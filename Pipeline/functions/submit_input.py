@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g
+from flask import request
 
 def submit(mysql):
     if request.method == 'POST':
