@@ -1,5 +1,6 @@
 from flask import request
 
+#submit the data to mysql Database
 def submit(mysql):
     if request.method == 'POST':
         input_text = request.form['input_text']

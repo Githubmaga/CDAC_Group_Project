@@ -1,5 +1,6 @@
 from flask_mysqldb import MySQL
 
+#create a new table
 def create_table(app,mysql):
         with app.app_context():
               cursor = mysql.connection.cursor()
