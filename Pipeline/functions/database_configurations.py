@@ -1,5 +1,6 @@
 import os
 
+
 def Database_config(app):
     app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
     app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
