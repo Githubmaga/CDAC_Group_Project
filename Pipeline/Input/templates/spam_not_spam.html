@@ -49,7 +49,9 @@
                     </div>
                     <div class="card-body">
                         <ul id="spamList">
-                            <!-- Text will be dynamically inserted here -->
+                            {% for st in spam_text %}
+                            <li>{{ st }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -61,7 +63,9 @@
                     </div>
                     <div class="card-body">
                         <ul id="notSpamList">
-                            <!-- Text will be dynamically inserted here -->
+                            {% for ns in non_spam_text %}
+                            <li>{{ ns }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
