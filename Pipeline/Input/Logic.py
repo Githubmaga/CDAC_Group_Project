@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect,url_for
 import joblib
 app=Flask(__name__)
 
@@ -34,9 +34,9 @@ def predict(text):
     return random.choice(["spam", "not spam"])
 
 
-@app.route('/spam_not_spam')
-def spam_non_spam_result():
-    return render_template('spam_not_spam.html', spam_text=spam_list, not_spam_text=non_spam_list)
+@app.route('/proceed')
+def proceed():
+    return redirect(url_for('spam_not_spam'),spam_text=spam_list, not_spam_text=non_spam_list)
 
 if __name__=='__main__':
     app.run(debug=True)
