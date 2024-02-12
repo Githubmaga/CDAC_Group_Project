@@ -14,6 +14,27 @@
             margin: 0 auto;
             width: 50%;
         }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .form-control {
+            width: 100%;
+            /* Set the text box width to 100% of its container */
+            height: auto;
+            /* Allow the text box to expand vertically */
+            min-height: 38px;
+            /* Set a minimum height to prevent it from collapsing */
+            overflow: hidden;
+            /* Hide overflow text */
+            resize: none;
+            /* Disable text box resizing by the user */
+        }
     </style>
 </head>
 
@@ -26,19 +47,38 @@
         </div>
         <div class="row mt-5">
             <div class="col-md-6 center-box">
+                <h3 class="text-center mb-3">Enter the review</h3>
                 <form action="/submit" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="text" placeholder="Enter a review">
+                        <textarea class="form-control" name="text" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Submit</button>
                 </form>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-success btn-block mt-3"
-                    onclick="window.location.href='/spam_non_spam'">Proceed</button>
+                <div class="buttons-container">
+                    <button class="btn btn-success btn-block mt-3"
+                        onclick="window.location.href='/spam_non_spam'">Proceed</button>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the form element
+            const reviewForm = document.getElementById('reviewForm');
+
+            // Add event listener for form submission
+            reviewForm.addEventListener('submit', function (event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Show the pop-up message
+                alert('String submitted successfully!');
+            });
+        });
+    </script>
 </body>
 
 </html>

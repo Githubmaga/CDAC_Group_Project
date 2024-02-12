@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+import joblib
 app=Flask(__name__)
 
 spam_list=[]
@@ -17,13 +17,13 @@ def index():
         else:
             non_spam_list.append(text)
         
-        return render_template('index.html', result=classification)
+        return render_template('Home.html', result=classification)
     else:
-        return render_template('index.html', result=None)
+        return render_template('Home.html', result=None)
 
 def preprocess_text(text):
-    # Your preprocessing code here (tokenization, cleaning, etc.)
-    # Placeholder: return the original text for now
+    model=joblib.load('CDAC_Group_Project\Pipeline\Input\tfidf_vectorizer.joblib')
+    model.predict()
     return text
 
 # Placeholder function for the TensorFlow model
@@ -36,7 +36,7 @@ def predict(text):
 
 @app.route('/spam_not_spam')
 def spam_non_spam_result():
-    return render_template('index.html', spam_text=spam, not_spam_text=non_spam)
+    return render_template('spam_not_spam.html', spam_text=spam_list, not_spam_text=non_spam_list)
 
 if __name__=='__main__':
     app.run(debug=True)
