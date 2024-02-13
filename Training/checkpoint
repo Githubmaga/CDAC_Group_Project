@@ -1,2 +1,2 @@
-model_checkpoint_path: "LSTM_02_model_weights.h1"
-all_model_checkpoint_paths: "LSTM_02_model_weights.h1"
+model_checkpoint_path: "LSTM_02_model_weights_3.h1"
+all_model_checkpoint_paths: "LSTM_02_model_weights_3.h1"
