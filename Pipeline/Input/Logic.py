@@ -1,11 +1,25 @@
 from flask import Flask, render_template, request,redirect,url_for
-
+from nltk.stem.wordnet import WordNetLemmatizer
+ls = WordNetLemmatizer()
+import nltk
+from nltk.corpus import stopwords
+import string
+from nltk.tokenize import word_tokenize
 import joblib
 
 app=Flask(__name__)
 
 spam_list=[]
 non_spam_list=[]
+
+nltk.download('stopwords')
+stopwords=stopwords.words('english')
+
+def clean_text(sent):
+    token1 = word_tokenize(sent) #tokenizing the sentences
+    token2 = [x.lower() for x in token1 if x.isalpha() or x.isdigit()] #Removing the punctuations
+    token3 = [ls.lemmatize(x) for x in token2 if x not in stopwords] #removing affixes
+    return token3 
 tfidf_model=joblib.load('D:/CDAC_PUNE_PROJECT/CDAC_Group_Project/Pipeline/Input/vectorizer.joblib')
 svm_model = joblib.load('D:/CDAC_PUNE_PROJECT/CDAC_Group_Project/Pipeline/Input/SVM_Classifier_03(RBF_Kernel).joblib')
 
@@ -18,7 +32,7 @@ def index():
         
         if classification == 'spam':
             spam_list.append(text)
-        else:
+        elif classification=='not spam':
             non_spam_list.append(text)
         
         return render_template('Home.html', result=classification)
@@ -37,14 +51,7 @@ def classify(text):
         return 'spam'
     else:
         return 'not spam'
-
-def clean_text(sent):
-    token1 = word_tokenize(sent) #tokenizing the sentences
-    #token2 = [x.lower() for x in token1 if x not in string.punctuation] #Removing the punctuations
-    token2 = [x.lower() for x in token1 if x.isalpha() or x.isdigit()] #Removing the punctuations
-    token3 = [ls.lemmatize(x) for x in token2 if x not in stopwords] #removing affixes
-    return token3 
-
+    
 @app.route('/spam_not_spam')
 def spam_not_spam():
     return render_template('spam_not_spam.html',spam_text=spam_list, not_spam_text=non_spam_list)
