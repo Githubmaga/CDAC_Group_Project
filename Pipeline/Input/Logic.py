@@ -56,5 +56,10 @@ def classify(text):
 def spam_not_spam():
     return render_template('spam_not_spam.html',spam_text=spam_list, not_spam_text=non_spam_list)
 
+summary_list=[]
+@app.route('/summary')
+def summary():
+    return render_template('summary.html',summary=summary_list)
+
 if __name__=='__main__':
     app.run(debug=True)
