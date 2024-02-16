@@ -60,7 +60,7 @@ def spam_not_spam():
 summary_list=[]
 @app.route('/summary')
 def summary():
-    return render_template('summary.html',summary=summary_list)
+    return render_template('summary_pos_neg.html',summary=summary_list)
 
 if __name__=='__main__':
     app.run(debug=True)
