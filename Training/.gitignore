@@ -4,3 +4,5 @@ lstm_model_weights4.h5
 lstm_model_weights4.joblib
 lstm_model4.h5
 lstm_model2.h5
+word2vec_model.bin
+word2vec_model.bin.wv.vectors.npy

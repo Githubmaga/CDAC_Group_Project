@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request,redirect,url_for
-from nltk.stem.wordnet import WordNetLemmatizer
-ls = WordNetLemmatizer()
-import nltk
-from nltk.corpus import stopwords
-import string
-from nltk.tokenize import word_tokenize
+from gensim.models import Word2Vec
+from gensim.utils import simple_preprocess
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow import keras
 import joblib
 
 app=Flask(__name__)
@@ -12,16 +10,18 @@ app=Flask(__name__)
 spam_list=[]
 non_spam_list=[]
 
-nltk.download('stopwords')
-stopwords=stopwords.words('english')
 
-def clean_text(sent):
-    token1 = word_tokenize(sent) #tokenizing the sentences
-    token2 = [x.lower() for x in token1 if x.isalpha() or x.isdigit()] #Removing the punctuations
-    token3 = [ls.lemmatize(x) for x in token2 if x not in stopwords] #removing affixes
-    return token3 
-tfidf_model=joblib.load('D:/CDAC_PUNE_PROJECT/CDAC_Group_Project/Pipeline/Input/vectorizer.joblib')
-svm_model = joblib.load('D:/CDAC_PUNE_PROJECT/CDAC_Group_Project/Pipeline/Input/SVM_Classifier_03(RBF_Kernel).joblib')
+word2vec_model=Word2Vec.load('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\word2vec_model.bin')
+
+model = keras.models.load_model('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
+
+def clean_text_for_prediction(sent):
+    sent_list=simple_preprocess(sent)
+    sequence = []
+    for word in sent_list:
+        if word in word2vec_model.wv:
+            sequence.append(word2vec_model.wv.key_to_index[word])
+    return sequence
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -41,13 +41,14 @@ def index():
 
 def classify(text):
     # Transform input text using TF-IDF Vectorizer
-    text_vectorized = tfidf_model.transform([text])
-    
+    sent_seq = clean_text_for_prediction(text)
+    max_sequence_length=300
+    padded_sequences = pad_sequences([sent_seq], maxlen=max_sequence_length, padding='post')
     # Predict using SVM Classifier
-    prediction = svm_model.predict(text_vectorized)
+    prediction = model.predict(padded_sequences)
     
     # Convert prediction to human-readable form
-    if prediction == 1:
+    if prediction > 0.5:
         return 'spam'
     else:
         return 'not spam'
