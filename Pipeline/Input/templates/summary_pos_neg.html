@@ -34,6 +34,11 @@
         .summary-card {
             margin-top: 500px;
         }
+
+        .buttoon_style {
+            margin-top: 20px;
+
+        }
     </style>
 </head>
 
@@ -98,7 +103,11 @@
         </div>
     </div>
 
-    <button class="btn btn-primary back-btn">Back</button>
+    <center>
+        <div class="buttons-container buttoon_style">
+            <a href="{{ url_for('spam_not_spam') }}" class="btn btn-primary">Back</a>
+        </div>
+    </center>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
