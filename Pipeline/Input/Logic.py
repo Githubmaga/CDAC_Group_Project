@@ -19,9 +19,9 @@ non_spam_list=[]
 positives=[]
 negatives=[]
 
-word2vec_model=Word2Vec.load('CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
+word2vec_model=Word2Vec.load('CDAC_Group_Project\Pipeline\Input\word2vec_model.bin')
 
-model = keras.models.load_model('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
+model = keras.models.load_model('CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
 
 '''
 model_path = 'D:\Cdac group project\Pipeline2\Input\pytorchmodel.bin'
@@ -112,4 +112,4 @@ def summary():
 
 
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(host="127.0.0.1",port=5000,debug=True)
