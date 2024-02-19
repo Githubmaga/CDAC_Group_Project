@@ -4,13 +4,11 @@ from gensim.utils import simple_preprocess
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow import keras
 import joblib
-import torch
 from transformers import pipeline
 from sumy.summarizers.lex_rank import LexRankSummarizer
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from transformers import RobertaTokenizer, RobertaForSequenceClassification
-import torch
 
 app=Flask(__name__,static_folder='static')
 
@@ -19,9 +17,9 @@ non_spam_list=[]
 positives=[]
 negatives=[]
 
-word2vec_model=Word2Vec.load('CDAC_Group_Project\Pipeline\Input\word2vec_model.bin')
+word2vec_model=Word2Vec.load('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\word2vec_model.bin')
 
-model = keras.models.load_model('CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
+model = keras.models.load_model('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
 
 '''
 model_path = 'D:\Cdac group project\Pipeline2\Input\pytorchmodel.bin'
@@ -59,6 +57,7 @@ def clean_text_for_prediction(sent):
             sequence.append(word2vec_model.wv.key_to_index[word])
     return sequence
 
+# function for displaying 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global text
@@ -75,24 +74,24 @@ def index():
     else:
         return render_template('Home.html', result=None)
 
+# for classification of Spam and Non spam reviews
 def classify(text):
-    # Transform input text using TF-IDF Vectorizer
     sent_seq = clean_text_for_prediction(text)
     max_sequence_length=300
     padded_sequences = pad_sequences([sent_seq], maxlen=max_sequence_length, padding='post')
-    # Predict using SVM Classifier
     prediction = model.predict(padded_sequences)
-    
     # Convert prediction to human-readable form
     if prediction > 0.9:
         return 'spam'
     else:
         return 'not spam'
     
+# function for displaying the spam and non spam reviews
 @app.route('/spam_not_spam')
 def spam_not_spam():
     return render_template('spam_not_spam.html',spam_text=spam_list, not_spam_text=non_spam_list)
 
+#  Function for Summary,Positive and Negative Sentimental Analysis 
 summary_list=[]
 @app.route('/summary') 
 def summary():
