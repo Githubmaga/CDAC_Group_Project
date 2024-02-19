@@ -36,6 +36,15 @@
         .summary-button {
             padding: 10px 20px;
         }
+
+        body {
+            margin: 0;
+            background-image: url("{{ url_for('static', filename='cool-background.png') }}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            /* Ensure the background image covers the entire viewport height */
+        }
     </style>
 </head>
 

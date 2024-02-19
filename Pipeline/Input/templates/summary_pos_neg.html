@@ -19,25 +19,29 @@
         }
 
         .card-body {
-            height: 25%;
-            /* Adjust as needed */
+            overflow: auto;
+            /* Allow scrolling if content exceeds card height */
             display: flex;
             align-items: center;
         }
 
-        .card {
-            height: calc(45vh - 40px);
-            /* Adjust as needed */
-            overflow-y: auto;
-        }
-
         .summary-card {
-            margin-top: 500px;
+            margin-top: 20px;
+            /* Adjust margin as needed */
         }
 
         .buttoon_style {
             margin-top: 20px;
+        }
 
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='cool-background.png') }}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            /* Ensure the background image covers the entire viewport height */
         }
     </style>
 </head>
@@ -55,9 +59,7 @@
                     </div>
                     <div class="card-body ">
                         <ul>
-                            {% for item in summary %}
-                            <li>{{ item }}</li>
-                            {% endfor %}
+                            <li>{{ summary_sentences }}</li>
                         </ul>
                     </div>
                 </div>
