@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Center everything */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        /* Styling for the cards */
+        .card-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+                <div class="row">
+                    <!-- Spam Card -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-danger text-white fs-3 text-center ">
+                                <h5 class="card-title">Spam</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <!-- Populate with spam strings from Flask app -->
+                                    {% for spam_text in spam_list %}
+                                    <li>{{ spam_text }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Non-Spam Card -->
+                    <div class="col-md-12 mt-4">
+                        <div class="card">
+                            <div class="card-header bg-success text-white fs-3 text-center">
+                                <h5 class="card-title">Non-Spam</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    <!-- Populate with non-spam strings from Flask app -->
+                                    {% for non_spam_text in non_spam_list %}
+                                    <li>{{ non_spam_text }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dummy data for demonstration
+
+        var data = {
+            labels: ["Spam", "Non-Spam"],
+            datasets: [{
+                label: 'Percentage',
+                data: [spam_count, non_spam_count], // Example percentages
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        var ctx = document.getElementById('chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
+</body>
+
+</html>

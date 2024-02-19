@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .centered {
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .card-body {
+            overflow: auto;
+            /* Allow scrolling if content exceeds card height */
+            display: flex;
+            align-items: center;
+        }
+
+        .summary-card {
+            margin-top: 20px;
+            /* Adjust margin as needed */
+        }
+
+        .buttoon_style {
+            margin-top: 20px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='cool-background.png') }}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            /* Ensure the background image covers the entire viewport height */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mt-5 mb-5 centered summary-card" style="width: 100%;">
+                    <div class="card-header bg-primary text-white">
+                        <center>
+                            <h3>Summary</h3>
+                        </center>
+                    </div>
+                    <div class="card-body ">
+                        <ul>
+                            <li>{{ summary_sentences }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header  bg-success text-white">
+                                <center>
+                                    <h3>Positive Reviews</h3>
+                                </center>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for item in positive_reviews %}
+                                    <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <center>
+                                    <h3>Negative Reviews</h3>
+                                </center>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    {% for item in negative_reviews %}
+                                    <li>{{ item }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <center>
+        <div class="buttons-container buttoon_style">
+            <a href="{{ url_for('spam_not_spam') }}" class="btn btn-primary">Back</a>
+        </div>
+    </center>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
