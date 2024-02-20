@@ -21,12 +21,31 @@ word2vec_model=Word2Vec.load('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\I
 
 model = keras.models.load_model('D:\CDAC_PUNE_PROJECT\CDAC_Group_Project\Pipeline\Input\lstm_model4.h5')
 
-'''
-model_path = 'D:\Cdac group project\Pipeline2\Input\pytorchmodel.bin'
-roberta_model = RobertaForSequenceClassification.from_pretrained(model_path)
+
+# Load the pretrained Roberta model and tokenizer from local directory
+'''model_path = 'pretrained_sentiment_analysis_model'
+model = RobertaForSequenceClassification.from_pretrained(model_path)
 tokenizer = RobertaTokenizer.from_pretrained(model_path)
 '''
+def analyze_sentiment():
+    # Get the input text from the request
+    data = request.get_json()
+    input_text = data['text']
 
+    # Tokenize the input text
+    inputs = tokenizer(input_text, return_tensors='pt', truncation=True, padding=True)
+
+    # Perform inference
+    outputs = model(**inputs)
+    predicted_class = torch.argmax(outputs.logits).item()
+
+    # Map predicted class to sentiment label
+    sentiment_label = "Positive" if predicted_class == 1 else "Negative"
+
+    if sentiment_label=='POSITIVE':
+        positives.append(text)
+    else:
+        negatives.append(text) 
 
 
 def sentiment_analyzer(text):
